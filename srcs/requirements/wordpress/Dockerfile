@@ -6,12 +6,12 @@
 #    By: hcremers <hcremers@student.s19.be>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/11 11:49:35 by hcremers          #+#    #+#              #
-#    Updated: 2023/01/18 11:23:41 by hcremers         ###   ########.fr        #
+#    Updated: 2023/01/21 17:51:19 by hcremers         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 # Pull base image
-FROM	alpine:3.16
+FROM	alpine:3.14
 
 # Install/Update packages
 RUN		apk update

@@ -6,12 +6,12 @@
 #    By: hcremers <hcremers@student.s19.be>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/11 11:48:08 by hcremers          #+#    #+#              #
-#    Updated: 2023/01/18 12:10:34 by hcremers         ###   ########.fr        #
+#    Updated: 2023/01/21 14:06:31 by hcremers         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 # Pull base image
-FROM	alpine:3.16
+FROM	alpine:3.14
 
 # Install/Update mariadb packages
 RUN		apk update

@@ -6,11 +6,11 @@
 #    By: hcremers <hcremers@student.s19.be>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/18 13:44:00 by hcremers          #+#    #+#              #
-#    Updated: 2023/01/18 13:45:15 by hcremers         ###   ########.fr        #
+#    Updated: 2023/01/21 18:22:12 by hcremers         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-# Store the file path in a variable
+# Store the path to the file in a variable
 target="/etc/php7/php-fpm.d/www.conf"
 
 # Ensure that the configuration has been done
@@ -27,7 +27,7 @@ fi
 
 # Check if the file is here
 if [ ! -f "wp-config.php" ]; then
-	cp /config/wp-config ./wp-config.php
+	cp /conf/wp-config ./wp-config.php
 
 	sleep 5
 
