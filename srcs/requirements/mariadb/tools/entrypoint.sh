@@ -6,7 +6,7 @@
 #    By: hcremers <hcremers@student.s19.be>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/18 13:44:00 by hcremers          #+#    #+#              #
-#    Updated: 2023/01/18 14:00:17 by hcremers         ###   ########.fr        #
+#    Updated: 2023/01/25 15:03:16 by hcremers         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,7 +26,7 @@ if [$? -ne 0];
 	done
 
 	# Execute the sql script in mariadb
-	eval "echo \"(cat /tmp/create_db.sql)\"" | mariadb
+	eval "echo \"$(cat /tmp/create_db.sql)\"" | mariadb
 
 	# Create the setup file
 	touch .setup

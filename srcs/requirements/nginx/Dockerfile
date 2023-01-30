@@ -6,7 +6,7 @@
 #    By: hcremers <hcremers@student.s19.be>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/11 11:49:35 by hcremers          #+#    #+#              #
-#    Updated: 2023/01/21 18:17:39 by hcremers         ###   ########.fr        #
+#    Updated: 2023/01/25 15:38:23 by hcremers         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -30,5 +30,5 @@ COPY	conf/nginx.conf /etc/nginx/http.d/default.conf
 # Only expose port 443
 EXPOSE	443
 
-# Execute nginx command without daemon
+# Execute nginx without making it a daemon
 CMD		["nginx", "-g", "daemon off;"]
