@@ -6,21 +6,24 @@
 #    By: hcremers <hcremers@student.s19.be>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/11 11:49:35 by hcremers          #+#    #+#              #
-#    Updated: 2023/01/25 15:21:28 by hcremers         ###   ########.fr        #
+#    Updated: 2023/02/05 18:28:43 by hcremers         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-# Pull base image
-FROM	alpine:3.14
+# Pull base image and update it
+FROM	debian:buster
+RUN		apt-get update
+RUN		apt-get upgrade -y
 
-# Install/Update packages
-RUN		apk update
-RUN		apk add --no-cache --quiet --update curl bash vim
-RUN		apk add --no-cache --quiet --update mariadb-client
-RUN		apk add --no-cache --quiet --update php7 php-phar php-json php-curl php-fpm php-mysqli php-iconv
+# Install packages
+RUN		apt-get install -y php7.3 php7.3-fpm php7.3-mysql curl
 
-# Create a directory for the wordpress files
-RUN		mkdir -p /var/www/wordpress
+# Create a directory for the wordpress files and use it as working directory
+WORKDIR	/tmp/wordpress
+
+# Copy the confguration file and allow its execution
+COPY	tools/entrypoint.sh .
+RUN		chmod +x ./entrypoint.sh
 
 # Download the wp CLI
 RUN		curl https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar --output /usr/bin/wp
@@ -28,17 +31,12 @@ RUN		curl https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.p
 # Allow the execution of wp
 RUN		chmod +x /usr/bin/wp
 
-# Download wordpress from the wp CLI
-RUN		wp core download --path=/var/www/wordpress
-
 # Change the working directory
-WORKDIR /var/www/wordpress
+WORKDIR /var/www/html/wordpress
 
-# Copy the configuration and entry point files
-COPY	conf/wp-config.php /conf/wp-config
-COPY	tools/entrypoint.sh /tmp/entrypoint.sh
+# Download wordpress from the wp CLI
+RUN		wp core download --allow-root
+RUN		chown -R www-data:www-data /var/www/html
 
-# Allow the execution of entrypoint.sh
-RUN		chmod +x /tmp/entrypoint.sh
-
-ENTRYPOINT ["sh", "/tmp/entrypoint.sh"]
+# Execute the script
+ENTRYPOINT [ "sh", "/tmp/entrypoint.sh" ]

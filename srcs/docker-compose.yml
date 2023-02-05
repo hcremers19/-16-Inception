@@ -6,83 +6,85 @@
 #    By: hcremers <hcremers@student.s19.be>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/18 13:44:00 by hcremers          #+#    #+#              #
-#    Updated: 2023/01/25 15:46:00 by hcremers         ###   ########.fr        #
+#    Updated: 2023/02/05 18:35:00 by hcremers         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-version: '3'
+version: "3.9"
 
 services:
-  nginx:
-    container_name: nginx
-    build: ./requirements/nginx
-    image: nginx
-    depends_on:
-      - wordpress
-    ports:
-      - "443:443"
-    networks:
-      - private
-    volumes:
-      - wordpress-volume:/var/www/wordpress
-    restart: unless-stopped
-
-  wordpress:
-    container_name: wordpress
-    build: ./requirements/wordpress
-    image: wordpress
-    depends_on:
-      - mariadb
-    networks:
-      - private
-    volumes:
-      - wordpress-volume:/var/www/wordpress
-    environment:
-      - WP_URL=${WP_URL}
-      - WP_DATABASE=${WP_DATABASE}
-      - WP_TITLE=${WP_TITLE}
-      - WP_ADMIN=${WP_ADMIN}
-      - WP_ADMIN_PWD=${WP_ADMIN_PWD}
-      - WP_ADMIN_EMAIL=${WP_ADMIN_EMAIL}
-      - WP_USER=${WP_USER}
-      - WP_USER_PWD=${WP_USER_PWD}
-      - WP_USER_EMAIL=${WP_USER_EMAIL}
-      - MARIADB_HOST=${MARIADB_HOST}
-      - MARIADB_DB=${MARIADB_DB}
-      - MARIADB_USER=${MARIADB_USER}
-      - MARIADB_PWD=${MARIADB_PWD}
-    restart: unless-stopped
-
   mariadb:
-    container_name: mariadb
     build: ./requirements/mariadb
+    container_name: mariadb
+    env_file:
+      - .env
+    healthcheck:
+      interval: 30s
+      retries: 5
+      test:
+        [
+          "CMD",
+          "mysqladmin",
+          "ping",
+          "-u",
+          "$MARIADB_USER",
+          "-p$MARIADB_PWD"
+        ]
+      timeout: 30s
     image: mariadb
     networks:
-      - private
+      - inception
+    ports:
+      - "3306:3306"
+    restart: unless-stopped
     volumes:
       - mariadb-volume:/var/lib/mysql
-    environment:
-      - MARIADB_ROOT_PWD=${MARIADB_ROOT_PWD}
-      - MARIADB_DB=${MARIADB_DB}
-      - MARIADB_USER=${MARIADB_USER}
-      - MARIADB_PWD=${MARIADB_PWD}
-    restart: unless-stopped
 
+  wordpress:
+    build: ./requirements/wordpress
+    container_name: wordpress
+    depends_on:
+      mariadb:
+        condition: service_healthy
+    env_file:
+      - .env
+    image: wordpress
+    networks:
+      - inception
+    ports:
+      - "9000:9000"
+    restart: unless-stopped
+    volumes:
+      - wordpress-volume:/var/www/wordpress
+
+  nginx:
+    build: ./requirements/nginx
+    container_name: nginx
+    depends_on:
+      - wordpress
+    image: nginx
+    networks:
+      - inception
+    ports:
+      - "443:443"
+    restart: unless-stopped
+    volumes:
+      - wordpress-volume:/var/www/wordpress
 
 volumes:
   mariadb-volume:
     driver: local
     driver_opts:
-      type: volume
       device: /home/hcremers/data/database
       o: bind
+      type: volume
 
   wordpress-volume:
     driver: local
     driver_opts:
-      type: volume
       device: /home/hcremers/data/wordpress
       o: bind
+      type: volume
 
 networks:
-  private:
+  inception:
