@@ -1,0 +1,43 @@
+# **************************************************************************** #
+#                                                                              #
+#                                                         :::      ::::::::    #
+#    explications.txt                                   :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: hcremers <hcremers@student.s19.be>         +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2023/01/23 16:02:51 by hcremers          #+#    #+#              #
+#    Updated: 2023/01/23 16:05:49 by hcremers         ###   ########.fr        #
+#                                                                              #
+# **************************************************************************** #
+
+Ce fichier de configuration Nginx est utilisé pour configurer un serveur web qui gère une application WordPress. Il contient une seule section server, qui définit les paramètres pour un serveur web unique.
+
+La première ligne # Minimum required by the wordpress php pages est un commentaire qui indique que cette configuration est la configuration minimale requise pour les pages PHP de WordPress.
+
+Les lignes suivantes définissent les paramètres de base pour le serveur web :
+
+server_name hcremers.42.fr; : cette instruction indique le nom de domaine pour lequel ce serveur web est configuré.
+listen 443 ssl; listen [::]:443 ssl; : ces instructions indiquent que le serveur écoute sur le port 443 en utilisant SSL.
+ssl_certificate /etc/nginx/ssl/hcremers.42.fr.crt; : cette instruction spécifie le chemin du certificat SSL utilisé pour sécuriser les connexions au serveur.
+ssl_certificate_key /etc/nginx/ssl/hcremers.42.fr.key; : cette instruction spécifie le chemin de la clé privée utilisée pour sécuriser les connexions au serveur.
+ssl_protocols TLSv1.2 TLSv1.3; : cette instruction indique les protocoles SSL/TLS qui sont activées sur le serveur.
+root /var/www/wordpress; : cette instruction indique le chemin du répertoire racine de l'application WordPress sur le serveur.
+index index.php index.html; : cette instruction indique les fichiers à utiliser lorsqu'une demande de répertoire est effectuée.
+
+
+
+Dernière section en détails :
+Ce bloc de code est une configuration pour le serveur web Nginx. Il spécifie les instructions à suivre lorsque des demandes sont faites à la racine (/) de l'application web.
+
+La première instruction location / indique que cette configuration s'applique à toutes les demandes faites à la racine de l'application.
+
+La deuxième instruction location ~ \.php$ indique que cette configuration s'applique uniquement aux demandes qui demandent des fichiers PHP.
+
+Les instructions suivantes définissent comment traiter les demandes pour des fichiers PHP:
+
+fastcgi_split_path_info ^(.+\.php)(/.+)$; : cette instruction décompose l'URL demandé en deux parties : le nom du script PHP et les informations de chemin supplémentaires.
+fastcgi_pass wordpress:9000; : cette instruction indique à Nginx de transmettre la demande à un serveur FastCGI qui écoute sur l'adresse wordpress et sur le port 9000.
+fastcgi_index index.php; : cette instruction indique que le fichier par défaut à utiliser lorsqu'une demande de répertoire est effectuée est index.php.
+include fastcgi_params; : cette instruction inclut un ensemble de paramètres standard pour les demandes FastCGI.
+fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name; : cette instruction définit une variable d'environnement pour le serveur FastCGI qui contient le chemin complet du script PHP à exécuter.
+fastcgi_param SCRIPT_NAME $fastcgi_script_name; : cette instruction définit une variable d'environnement pour le serveur FastCGI qui contient le nom du script PHP à exécuter.

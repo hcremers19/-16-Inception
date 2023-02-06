@@ -1,46 +1,28 @@
-# **************************************************************************** #
-#                                                                              #
-#                                                         :::      ::::::::    #
-#    entrypoint.sh                                      :+:      :+:    :+:    #
-#                                                     +:+ +:+         +:+      #
-#    By: hcremers <hcremers@student.s19.be>         +#+  +:+       +#+         #
-#                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2023/01/18 13:44:00 by hcremers          #+#    #+#              #
-#    Updated: 2023/02/05 18:21:00 by hcremers         ###   ########.fr        #
-#                                                                              #
-# **************************************************************************** #
+# Check if the setup file already exists
+cat .setup 2> /dev/null
 
-# Change the owner of the files
-chown -R mysql:mysql /var/lib/mysql
+if [ $? -ne 0 ]; then
+	# Execute mysqld_safe in the appropriate directory
+	usr/bin/mysqld_safe --datadir=/var/lib/mysql &
 
-# Check if the file already exists
-if [ ! -d /var/lib/mysql/$MARIADB_DB ]; then
-
-	# Start mysql in the right directory
-	service mysql start --datadir=/var/lib/mysql
-
-	# Create directory and file for the daemon
-	mkdir -p /var/run/mysqld
-	touch /var/run/mysqld/mysqlf.pid
+	# Wait for the MySQL server to be up
+	while ! mysqladmin ping -h "$MARIADB_HOST" --silent; do
+    	sleep 1
+	done
 
 	# Execute the SQL script in MariaDB
-	eval "echo \"$(cat /tmp/create_db.sql)\"" | mariadb -u root
+	eval "echo \"$(cat /tmp/create_db.sql)\"" | mariadb
 
-	# Set MySQL root password
-	mysqladmin -u root password $MARIADB_ROOT_PWD
-
-	service mysql stop --datadir=/var/lib/mysql
-
-else
-	# Create directory and file for the daemon
-	mkdir -p /var/run/mysqld
-	touch /var/run/mysqld/mysqlf.pid
-	# mkfifo /var/run/mk
-
+	# Create the setup file
+	touch .setup
 fi
 
-# Change the owner of those files
-chown -R mysql:mysql /var/run/mysqld
+# Execute mysqld_safe in the appropriate directory
+usr/bin/mysqld_safe --datadir=/var/lib/mysql
 
-# Start the daemon
-mysqld_safe --datadir=/var/lib/mysql
+# mysql -u root -p
+# SHOW DATABASES;
+# use 'wordpress';
+# SHOW TABLES;
+# SELECT wp_users.display_name FROM wp_users;
+# SELECT *  FROM wp_users;
