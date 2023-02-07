@@ -9,9 +9,9 @@ RUN		apk add --no-cache --quiet --update mariadb mariadb-client vim
 RUN 	mkdir -p /var/lib/mysqld /run/mysqld
 
 # Copy configuration files
-COPY	./config/create_db.sql /tmp/create_db.sql
+COPY	./conf/create_db.sql /tmp/create_db.sql
 COPY	./tools/entrypoint.sh ./
-COPY 	./config/mariadb-server.cnf /etc/my.cnf.d/
+COPY 	./conf/mariadb-server.cnf /etc/my.cnf.d/
 
 # Install database with authentication
 RUN		mariadb-install-db --datadir=/var/lib/mysql --auth-root-authentication-method=normal

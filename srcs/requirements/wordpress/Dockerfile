@@ -23,7 +23,7 @@ RUN		wp core download --path=/var/www/wordpress
 WORKDIR /var/www/wordpress
 
 # Copy the confguration file and allow its execution
-COPY	config/wp-config.php /config/wp-config
+COPY	conf/wp-config.php /conf/wp-config
 COPY	./tools/entrypoint.sh /tmp/entrypoint.sh
 
 RUN		chmod +x /tmp/entrypoint.sh
