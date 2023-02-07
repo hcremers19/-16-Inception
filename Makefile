@@ -4,7 +4,7 @@ NAME	= Inception
 
 all:	build
 
-build: 
+build:
 		sudo mkdir -p /home/hcremers/data /home/hcremers/data/wordpress /home/hcremers/data/database
 		sudo chmod 777 /etc/hosts
 		sudo echo "127.0.0.1 hcremers.42.fr" >> /etc/hosts
@@ -14,10 +14,10 @@ build:
 status:
 		cd srcs/ && sudo docker-compose ps
 
-up: 
+up:
 		cd srcs/ && sudo docker-compose up -d
 
-down: 
+down:
 		cd srcs/ && sudo docker-compose down
 
 clean:

@@ -18,7 +18,7 @@ RUN		mariadb-install-db --datadir=/var/lib/mysql --auth-root-authentication-meth
 
 # Allow execution and change owner and groups
 RUN 	chmod +x ./entrypoint.sh
-RUN		chown -R mysql:mysql /var/lib/mysql 
+RUN		chown -R mysql:mysql /var/lib/mysql
 RUN 	chown -R mysql:mysql /run/mysqld
 
 # Execute script
