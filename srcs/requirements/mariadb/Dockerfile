@@ -6,7 +6,7 @@
 #    By: hcremers <hcremers@student.s19.be>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/11 11:48:08 by hcremers          #+#    #+#              #
-#    Updated: 2023/02/07 10:39:17 by hcremers         ###   ########.fr        #
+#    Updated: 2023/02/07 11:52:25 by hcremers         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,9 +21,9 @@ RUN		apk add --no-cache --quiet --update mariadb mariadb-client vim
 RUN 	mkdir -p /var/lib/mysqld /run/mysqld
 
 # Copy configuration files
-COPY	./conf/create_db.sql /tmp/create_db.sql
-COPY	./tools/entrypoint.sh ./
-COPY 	./conf/mariadb-server.cnf /etc/my.cnf.d/
+COPY	conf/create_db.sql /tmp/create_db.sql
+COPY	tools/entrypoint.sh ./
+COPY 	conf/mariadb-server.cnf /etc/my.cnf.d/
 
 # Install database with authentication
 RUN		mariadb-install-db --datadir=/var/lib/mysql --auth-root-authentication-method=normal

@@ -6,7 +6,7 @@
 #    By: hcremers <hcremers@student.s19.be>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/11 11:49:35 by hcremers          #+#    #+#              #
-#    Updated: 2023/02/07 10:38:44 by hcremers         ###   ########.fr        #
+#    Updated: 2023/02/07 11:52:16 by hcremers         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -28,7 +28,7 @@ RUN     openssl req -x509 -nodes \
 		-subj "/C=BE/ST=Belgium/L=Brussels/O=42/OU=19/CN=hcremers.42.fr/UID=hcremers"
 
 # Copy configuration file
-COPY    ./conf/nginx.conf /etc/nginx/http.d/default.conf
+COPY    conf/nginx.conf /etc/nginx/http.d/default.conf
 
 # Expose the right port
 EXPOSE  443

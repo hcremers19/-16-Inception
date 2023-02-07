@@ -6,7 +6,7 @@
 #    By: hcremers <hcremers@student.s19.be>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/11 11:49:35 by hcremers          #+#    #+#              #
-#    Updated: 2023/02/07 10:37:51 by hcremers         ###   ########.fr        #
+#    Updated: 2023/02/07 11:52:08 by hcremers         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -36,7 +36,7 @@ WORKDIR /var/www/wordpress
 
 # Copy the confguration file and allow its execution
 COPY	conf/wp-config.php /conf/wp-config
-COPY	./tools/entrypoint.sh /tmp/entrypoint.sh
+COPY	tools/entrypoint.sh /tmp/entrypoint.sh
 
 RUN		chmod +x /tmp/entrypoint.sh
 

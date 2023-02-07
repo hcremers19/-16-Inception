@@ -6,7 +6,7 @@
 #    By: hcremers <hcremers@student.s19.be>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/11 11:45:14 by hcremers          #+#    #+#              #
-#    Updated: 2023/02/07 10:35:43 by hcremers         ###   ########.fr        #
+#    Updated: 2023/02/07 11:58:55 by hcremers         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,10 +17,12 @@ NAME	= Inception
 all:	build
 
 build:
-		sudo mkdir -p /home/hcremers/data /home/hcremers/data/wordpress /home/hcremers/data/database
+		sudo mkdir -p /home/hcremers/data
+		sudo mkdir -p /home/hcremers/data/wordpress
+		sudo mkdir -p /home/hcremers/data/database
 		sudo chmod 777 /etc/hosts
-		sudo echo "127.0.0.1 hcremers.42.fr" >> /etc/hosts
-		sudo echo "127.0.0.1 www.hcremers.42.fr" >> /etc/hosts
+		sudo echo "127.0.0.1	hcremers.42.fr" >> /etc/hosts
+		sudo echo "127.0.0.1	www.hcremers.42.fr" >> /etc/hosts
 		cd srcs/ && sudo docker-compose up -d --build
 
 status:
