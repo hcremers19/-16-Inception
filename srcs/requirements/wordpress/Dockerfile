@@ -6,16 +6,16 @@
 #    By: hcremers <hcremers@student.s19.be>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/11 11:49:35 by hcremers          #+#    #+#              #
-#    Updated: 2023/02/07 11:52:08 by hcremers         ###   ########.fr        #
+#    Updated: 2023/02/09 15:12:06 by hcremers         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 # Pull base image and update it
-FROM    alpine:3.14
-RUN     apk update
+FROM	alpine:3.14
+RUN		apk update
 
 # Install packages
-RUN		apk add --no-cache --quiet --update curl bash vim
+RUN		apk add --no-cache --quiet --update curl bash
 RUN		apk add --no-cache --quiet --update mariadb-client
 RUN		apk add --no-cache --quiet --update php7 php-phar php-json php-curl php-fpm php-mysqli php-iconv
 
@@ -23,7 +23,7 @@ RUN		apk add --no-cache --quiet --update php7 php-phar php-json php-curl php-fpm
 RUN		mkdir -p /var/www/wordpress
 
 # Download the wp CLI
-RUN     curl https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar --output /usr/bin/wp
+RUN		curl https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar --output /usr/bin/wp
 
 # Allow the execution of wp
 RUN		chmod +x ./usr/bin/wp
@@ -32,7 +32,7 @@ RUN		chmod +x ./usr/bin/wp
 RUN		wp core download --path=/var/www/wordpress
 
 # Change the working directory
-WORKDIR /var/www/wordpress
+WORKDIR	/var/www/wordpress
 
 # Copy the confguration file and allow its execution
 COPY	conf/wp-config.php /conf/wp-config
